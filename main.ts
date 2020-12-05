@@ -2,47 +2,6 @@ namespace SpriteKind {
     export const Veggie = SpriteKind.create()
     export const Sprout = SpriteKind.create()
 }
-function addScore(playerInfo: info.PlayerInfo, win: boolean){
-     // add a score
-    playerInfo.changeScoreBy(1)
-
-    if(playerInfo.score() == 10){
-        pause(100)
-        game.over(win)
-    }
-}
-function turnSproutToVeggie(theSprout: Sprite, whoToFollow: Sprite){
-    // turn the sprout into a veggie
-    theSprout.setKind(SpriteKind.Veggie)
-
-    // Pick a random veggie image to change to
-    let veggieIndex = randint(0, veggies.length - 1)
-    let veggieImg = veggies[veggieIndex]
-    theSprout.setImage(veggieImg)
-    theSprout.say("")
-    theSprout.follow(whoToFollow)
-}
-
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Sprout, function (thePlayer, theSprout) {
-    // add a score for the player
-    addScore(info.player1, true)
-    
-    // turn the sprout into a veggie
-    turnSproutToVeggie(theSprout, thePlayer)
-
-    // Tell the rabbit to pick a new target
-    rabbitGoAfterSprout()
-})
-sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Sprout, function (enemy, theSprout) {
-    // add a score for the rabbit
-    addScore(info.player2, false)
-    
-    // turn the sprout into a veggie
-    turnSproutToVeggie(theSprout, enemy)
-
-    // Tell the rabbit to pick a new target
-    rabbitGoAfterSprout()
-})
 
 let targetSprout: Sprite = null
 function rabbitGoAfterSprout() {
@@ -253,15 +212,3 @@ scene.cameraFollowSprite(player)
 info.player1.setScore(0)
 info.player2.setScore(0)
 let availableFieldTiles = tiles.getTilesByType(myTiles.tile1)
-
-let msg = `It's harvest time!
-But there is a problem...
-There is a rabbit in the feild.
-She is eating all our veggies!
-Harvest your veggies before the rabbit does!
-Don't worry, The rabbit will be fine.
-She can eat other things.
-Like grass or leaves or garbage...
-Good luck!
-`
-game.showLongText(msg, DialogLayout.Full)
